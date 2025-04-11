@@ -33,6 +33,9 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
 
     uint256 private _totalSupply;
 
+    uint256 public burned;
+    uint256 public minted;
+    uint8 public _decimals;
     string private _name;
     string private _symbol;
 
@@ -42,9 +45,10 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      * All two of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor(string memory name_, string memory symbol_) {
+    constructor(string memory name_, string memory symbol_, uint8 decimals_) {
         _name = name_;
         _symbol = symbol_;
+        _decimals = decimals_;
     }
 
     /**
@@ -76,7 +80,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
     function decimals() public view virtual returns (uint8) {
-        return 18;
+        return _decimals;
     }
 
     /**
@@ -222,6 +226,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
         if (account == address(0)) {
             revert ERC20InvalidReceiver(address(0));
         }
+        minted += value;
         _update(address(0), account, value);
     }
 
@@ -237,6 +242,7 @@ abstract contract ERC20 is Context, IERC20, IERC20Metadata, IERC20Errors {
         if (account == address(0)) {
             revert ERC20InvalidSender(address(0));
         }
+        burned += value;
         _update(account, address(0), value);
     }
 
