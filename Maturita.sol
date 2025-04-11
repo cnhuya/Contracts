@@ -32,7 +32,7 @@ uint8 _Decimals = 5;
    uint8 maxDecimals = 3;
   uint32 public TransferFee = 1;
    uint32 public BurnFee = 1;
-   address public FeeCollector = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+   address public FeeCollector = your_address;
    function transfer(address to, uint256 amount) public override returns (bool) {
         require(balanceOf(msg.sender) >= amount, "Not enough tokens to send.");
         // 100 * 1) / 100 )
